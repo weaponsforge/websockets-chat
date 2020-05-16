@@ -1,0 +1,30 @@
+{
+  "name": "websockets-chat",
+  "version": "1.0.0",
+  "description": "Exploring websockets by building a basic chat application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weaponsforge/websockets-chat.git"
+  },
+  "keywords": [
+    "websockets",
+    "nodejs",
+    "express",
+    "chat"
+  ],
+  "author": "weaponsforge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weaponsforge/websockets-chat/issues"
+  },
+  "homepage": "https://github.com/weaponsforge/websockets-chat#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.3.0"
+  }
+}
