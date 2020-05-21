@@ -4,7 +4,7 @@
   "description": "Exploring websockets by building a basic chat application.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
