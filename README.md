@@ -25,7 +25,10 @@ The following software have been used for this project.
 3. Run the web server.  
 `npm run start`
 
-4. Load the app on web browser.  
+4. Load the app on a web browser and enter your username.  
+`http://localhost:3000`
+
+5. Load the app on another web browser tab and start chatting with yourself.  
 `http://localhost:3000`
 
 @weaponsforge  

@@ -4,9 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Websockets CHAT</title>
-  <script src="main.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="main.css" />
+  <script src="js/vue.js" type="text/javascript"></script>
+  <script src="js/defines.js" type="text/javascript"></script>
+  <script src="js/websocket-client.js" type="text/javascript"></script>
 </head>
-<body onload="init()">
-<h1>Websockets Chat</h1>
+<body onload="">
+  <h1>Websockets Chat</h1>
+
+  <div class="container" id="app">
+    <!-- REGISTER USER -->
+    <register v-if="!currentUser"></register>
+
+    <!-- MESSAGES PANEL -->
+    <div v-else id="chat">
+      <div id="messages" class="messagescontainer">
+        <component
+          v-bind:is="item.userid === currentUser ? mymessage : usermessage"
+          v-for="(item, index) in messages" 
+          :key="index"
+          :userid="item.userid"
+          :message="item.message"
+        >
+        </component>
+      </div>
+    
+      <!-- CHAT CONTROL PANEL -->
+      <controlpanel></controlpanel>
+    </div>
+  </div>
+
+  <!-- vue components -->
+  <script src="js/components/register/register.js" type="text/javascript"></script>
+  <script src="js/components/messages/usermessage.js" type="text/javascript"></script>
+  <script src="js/components/messages/mymessage.js" type="text/javascript"></script>
+  <script src="js/components/messages/messages.js" type="text/javascript"></script>
+  <script src="js/components/controlpanel/controlpanel.js" type="text/javascript"></script>
+  <script src="js/components/app.js" type="text/javascript"></script>
 </body>
 </html>
