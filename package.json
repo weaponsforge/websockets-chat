@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run generate-defines && node server/index",
     "generate-defines": "node scripts/create-client-defines",
-    "lint-fix": "eslint --fix server public/js",
-    "lint": "eslint server public/js"
+    "lint-fix": "eslint --fix server scripts public/js",
+    "lint": "eslint server scripts public/js"
   },
   "repository": {
     "type": "git",

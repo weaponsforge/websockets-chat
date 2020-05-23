@@ -6,29 +6,29 @@ const path = require('path')
 try {
   const filePath = path.join(__dirname, '..', '/public/js/defines.js')
   const label = '// Generated do not edit - global constant definitions for web client in sync with server/defines.js\n\n'
-  let hasDefines = false
+  let hasDefines = true
 
   // Check if the client defines file already exists.
-  try {  
+  try {
     fs.readFileSync(filePath, 'utf8')
-    hasDefines = true
   } catch (e) {
+    hasDefines = false
     console.log('Defines file not found.')
   }
 
   if (hasDefines) {
     console.log('Client defines file already exists, skipping.')
-    return
+    process.exit()
   }
 
   // Write the label to file
   fs.writeFile(filePath, label, function (err) {
-    if (err) throw new Error (err)
+    if (err) throw new Error(err)
     console.log('Client defines file created.')
   })
 
   // Read the .env file
-  let env = fs.readFileSync(path.join(__dirname, '..', '/.env'), 'utf8').replace(/ /g, '')    
+  const env = fs.readFileSync(path.join(__dirname, '..', '/.env'), 'utf8').replace(/ /g, '')
 
   // Format and write the .env content to file
   const keys = env.split('\r\n').filter(keypair => keypair !== '')
@@ -42,9 +42,10 @@ try {
       }
     }).toString().replace(/,/g, '\n')
 
-  fs.appendFile(filePath, keys, function (err) {
-    if (err) throw new Error (err)
+  fs.appendFile(filePath, `${keys}\n`, function (err) {
+    if (err) throw new Error(err)
     console.log('Defines file updated.')
+    process.exit()
   })
 } catch (e) {
   throw new Error('Error parsing .env file.')
