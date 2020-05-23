@@ -1,8 +1,6 @@
 const { KEYS } = require('./defines')
 
 class Utils {
-  constructor () {}
-
   /**
    * Returns a random string
    */
@@ -13,7 +11,7 @@ class Utils {
   /**
    * Encodes the websockets response message to client(s) in a JSON String "{ actiontype: '', userid: '', message: '' }" structure.
    * @param {String} actiontype Defines the nature of the server response message
-   * @param {String} userid A connected client's userid 
+   * @param {String} userid A connected client's userid
    * @param {String} message A string message that will be broadcasted to all other connected clients
    */
   createResponse (actiontype, userid, message) {
@@ -28,11 +26,10 @@ class Utils {
     })
   }
 
-
   /**
    * Encodes the received request data from client into a JSON object.
    * Expected data must be an Object containing key-value pairs { actiontype: '', userid: '', message: '' }
-   * @param {String} data 
+   * @param {String} data
    */
   parseRequest (data) {
     return JSON.parse(data)

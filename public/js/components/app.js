@@ -5,20 +5,20 @@
 
 const ChatWS = new WebsocketClient()
 
-new Vue({
+const app = new Vue({
   el: '#app',
   data: {
     currentUser: null,
     usermessage: 'usermessage',
     mymessage: 'mymessage',
-    messages: [],
+    messages: []
   },
-  mounted() {
+  mounted () {
     // Hook websocket events update to local state data
     ChatWS.initSocket(this.fetchWebsocketData)
   },
   methods: {
-    fetchWebsocketData(data) {
+    fetchWebsocketData (data) {
       if (data[ACTION] === REGISTER) {
         if (!this.currentUser) {
           this.currentUser = data[MESSAGE]

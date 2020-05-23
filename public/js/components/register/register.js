@@ -2,14 +2,14 @@
 // Requires the global instance of WebsocketClient (ChatWS).
 
 Vue.component('register', {
-  data: function() {
+  data: function () {
     return {
       username: '',
       messages: []
     }
   },
   methods: {
-    submit() {
+    submit () {
       ChatWS.register(this.username)
     }
   },

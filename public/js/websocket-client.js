@@ -4,12 +4,11 @@
  * Requires defines.js
  */
 class WebsocketClient {
-  constructor() {
+  constructor () {
     this.socket = new WebSocket(`ws://localhost:${SERVER_PORT}`)
-    this.user
+    this.user = null
     this.isConnected = false
   }
-
 
   /**
    * Listen for websocket server events on client.
@@ -26,7 +25,7 @@ class WebsocketClient {
 
       if (data[ACTION] === REGISTER) {
         this.user = data[MESSAGE]
-      }      
+      }
 
       callback(data)
     })
@@ -35,7 +34,6 @@ class WebsocketClient {
       console.log('connection closed.')
     })
   }
-
 
   /**
    * Send the text content of an html <input /> to the ws server.
@@ -49,10 +47,9 @@ class WebsocketClient {
     }))
   }
 
-
   /**
    * Send the client's username to use for chat broadcast.
-   * @param {String} username 
+   * @param {String} username
    */
   register (username) {
     if (!username) {
@@ -65,7 +62,6 @@ class WebsocketClient {
     }))
   }
 
-
   /**
    * JSON.stringify data that will be sent to the ws server.
    * @param {Object} object A key-value pair JS object
@@ -73,7 +69,6 @@ class WebsocketClient {
   createRequest (object) {
     return JSON.stringify(object)
   }
-
 
   /**
    * Format incoming JSON strings from the ws server as objects.

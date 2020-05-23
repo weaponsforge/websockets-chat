@@ -10,7 +10,8 @@ app.use(express.static(path.join(__dirname, '..', 'public')))
 
 // Websocket server
 const server = http.createServer(app)
-new WebsocketServer (server)
+/* eslint-disable no-unused-vars */
+const ws = new WebsocketServer(server)
 
 server.listen(SERVER_PORT, () => {
   console.log(`listening on http://localhost:${SERVER_PORT}`)

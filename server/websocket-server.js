@@ -22,11 +22,10 @@ class WebsocketServer {
     this.ws = new Websocket.Server({ server })
 
     // Websocket connection
-    this.wsconnection
+    this.wsconnection = null
     this.initialize()
   }
 
-  
   /**
    * Initialize listeners and corresponding actions for incoming client "message".
    */
@@ -36,35 +35,34 @@ class WebsocketServer {
 
       // Send a first-time welcome message
       this.sendMessage(ACTION_TYPES.CONNECTED, 'Welcome to the Chat room.')
-    
+
       // Listen for incoming client message
       this.wsconnection.on('message', (data) => {
         const message = Utils.parseRequest(data)
-    
+
         // Confirm user's first-time username registration
         switch (message[KEYS.ACTION]) {
-          case ACTION_TYPES.REGISTER:
-            // Acknowlege the username update
-            this.sendMessage(ACTION_TYPES.REGISTER, message[KEYS.USERID])
+        case ACTION_TYPES.REGISTER:
+          // Acknowlege the username update
+          this.sendMessage(ACTION_TYPES.REGISTER, message[KEYS.USERID])
 
-            // Broadcast the new user ID to all connected clients
-            this.broadcastMessage(SERVER_ADMIN, `[${message[KEYS.USERID]}] has joined the chat.`)
-          break
-          
-          case ACTION_TYPES.BROADCAST:
-            // Broadcast a user's message to all other connected clients
-            this.broadcastMessage(message[KEYS.USERID], message[KEYS.MESSAGE])
+          // Broadcast the new user ID to all connected clients
+          this.broadcastMessage(SERVER_ADMIN, `[${message[KEYS.USERID]}] has joined the chat.`)
           break
 
-          default:
-            // Send an error warning to user
-            this.sendMessage(ACTION_TYPES.ERROR, 'Invalid message action.')
+        case ACTION_TYPES.BROADCAST:
+          // Broadcast a user's message to all other connected clients
+          this.broadcastMessage(message[KEYS.USERID], message[KEYS.MESSAGE])
+          break
+
+        default:
+          // Send an error warning to user
+          this.sendMessage(ACTION_TYPES.ERROR, 'Invalid message action.')
           break
         }
       })
     })
   }
-
 
   /**
    * Broadcast a message to all connected clients
@@ -75,13 +73,12 @@ class WebsocketServer {
     this.ws.clients.forEach((client) => {
       if (client.readyState === Websocket.OPEN) {
         client.send(Utils.createResponse(
-          ACTION_TYPES.BROADCAST, 
-          userid, 
+          ACTION_TYPES.BROADCAST,
+          userid,
           message))
       }
     })
   }
-
 
   /**
    * Send a server message targeted to the current-connected client only.

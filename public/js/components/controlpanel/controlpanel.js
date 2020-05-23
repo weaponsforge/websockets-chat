@@ -2,13 +2,13 @@
 // Requires the global instance of WebsocketClient (ChatWS).
 
 Vue.component('controlpanel', {
-  data: function() {
+  data: function () {
     return {
       post: ''
     }
   },
   methods: {
-    submit() {
+    submit () {
       if (ChatWS.getUser()) {
         ChatWS.sendMessage(this.post)
       } else {
