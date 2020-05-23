@@ -4,7 +4,7 @@ class Utils {
   /**
    * Returns a random string
    */
-  generateUserID () {
+  static generateUserID () {
     return Math.random().toString(36).substr(2, 8)
   }
 
@@ -14,7 +14,7 @@ class Utils {
    * @param {String} userid A connected client's userid
    * @param {String} message A string message that will be broadcasted to all other connected clients
    */
-  createResponse (actiontype, userid, message) {
+  static createResponse (actiontype, userid, message) {
     if (!actiontype || !userid || !message) {
       throw new Error('Incomplete response data.')
     }
@@ -31,9 +31,9 @@ class Utils {
    * Expected data must be an Object containing key-value pairs { actiontype: '', userid: '', message: '' }
    * @param {String} data
    */
-  parseRequest (data) {
+  static parseRequest (data) {
     return JSON.parse(data)
   }
 }
 
-module.exports = new Utils()
+module.exports = Utils
