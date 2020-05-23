@@ -4,7 +4,8 @@
   "description": "Exploring websockets by building a basic chat application.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "npm run generate-defines && node server/index",
+    "generate-defines": "node scripts/create-client-defines",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/weaponsforge/websockets-chat#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ws": "^7.3.0"
   }

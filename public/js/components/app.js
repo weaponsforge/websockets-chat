@@ -19,9 +19,9 @@ new Vue({
   },
   methods: {
     fetchWebsocketData(data) {
-      if (data[KEYS.ACTION] === ACTION_TYPES.REGISTER) {
-        if (!this.currentUser && data.userid !== SERVER_ADMIN) {
-          this.currentUser = data.userid
+      if (data[ACTION] === REGISTER) {
+        if (!this.currentUser) {
+          this.currentUser = data[MESSAGE]
         }
       } else {
         this.messages.push(data)

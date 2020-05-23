@@ -11,13 +11,13 @@ class Utils {
   }
 
   /**
-   * Encodes the websockets response message to client(s) in a String "{ actiontype: '', userid: '', message: '' }" structure.
+   * Encodes the websockets response message to client(s) in a JSON String "{ actiontype: '', userid: '', message: '' }" structure.
    * @param {String} actiontype Defines the nature of the server response message
    * @param {String} userid A connected client's userid 
    * @param {String} message A string message that will be broadcasted to all other connected clients
    */
   createResponse (actiontype, userid, message) {
-    if (!actiontype && !userid && !message) {
+    if (!actiontype || !userid || !message) {
       throw new Error('Incomplete response data.')
     }
 
@@ -31,7 +31,7 @@ class Utils {
 
   /**
    * Encodes the received request data from client into a JSON object.
-   * Expected data must contain key-value pairs { actiontype: '', userid: '', message: '' }
+   * Expected data must be an Object containing key-value pairs { actiontype: '', userid: '', message: '' }
    * @param {String} data 
    */
   parseRequest (data) {

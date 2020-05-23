@@ -1,25 +1,28 @@
+require('dotenv').config()
+
 const ACTION_TYPES = {
-  CONNECTED: 'connected',
-  REGISTER: 'register',
-  BROADCAST: 'broadcast',
-  LOGOUT: 'logout'
+  CONNECTED: process.env.CONNECTED,
+  REGISTER: process.env.REGISTER,
+  BROADCAST: process.env.BROADCAST,
+  LOGOUT: process.env.LOGOUT,
+  ERROR: process.env.ERROR
 }
 
 const MESSAGE_TYPE = {
-  SERVER: 'server_msg',
-  USER: 'user_msg',
-  OWN: 'own_msg'
+  SERVER: process.env.SERVER,
+  USER: process.env.USER,
+  OWN: process.env.OWN
 }
 
 const KEYS = {
-  ACTION: 'actiontype',
-  USERID: 'userid',
-  MESSAGE: 'message'
+  ACTION: process.env.ACTION,
+  USERID: process.env.USERID,
+  MESSAGE: process.env.MESSAGE
 }
 
-const SERVER_ADMIN = 'system'
+const SERVER_ADMIN = process.env.SERVER_ADMIN
 
-const SERVER_PORT = 3000
+const SERVER_PORT = process.env.PORT || process.env.SERVER_PORT
 
 module.exports = {
   ACTION_TYPES,

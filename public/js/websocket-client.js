@@ -12,8 +12,8 @@ class WebsocketClient {
 
 
   /**
-   * Listen for websocket events on client. 
-   * @param {Function} callback  Callback method from a calling vue component.
+   * Listen for websocket server events on client.
+   * @param {Function} callback Callback method from a calling vue component.
    */
   initSocket (callback) {
     this.socket.addEventListener('open', () => {
@@ -24,10 +24,8 @@ class WebsocketClient {
     this.socket.addEventListener('message', (event) => {
       const data = this.parseResponse(event.data)
 
-      if (data[KEYS.ACTION] === ACTION_TYPES.REGISTER) {
-        if (!this.user && data[KEYS.USERID] !== SERVER_ADMIN) {
-          this.user = data[KEYS.USERID]
-        }
+      if (data[ACTION] === REGISTER) {
+        this.user = data[MESSAGE]
       }      
 
       callback(data)
@@ -45,9 +43,9 @@ class WebsocketClient {
    */
   sendMessage (message) {
     this.socket.send(this.createRequest({
-      [KEYS.ACTION]: ACTION_TYPES.BROADCAST,
-      [KEYS.USERID]: this.user,
-      [KEYS.MESSAGE]: message
+      [ACTION]: BROADCAST,
+      [USERID]: this.user,
+      [MESSAGE]: message
     }))
   }
 
@@ -62,8 +60,8 @@ class WebsocketClient {
     }
 
     this.socket.send(this.createRequest({
-      [KEYS.ACTION]: ACTION_TYPES.REGISTER,
-      [KEYS.USERID]: username
+      [ACTION]: REGISTER,
+      [USERID]: username
     }))
   }
 
