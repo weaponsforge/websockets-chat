@@ -17,6 +17,7 @@ const MESSAGE_TYPE = {
 const KEYS = {
   ACTION: process.env.ACTION,
   USERID: process.env.USERID,
+  CODE: process.env.CODE,
   MESSAGE: process.env.MESSAGE
 }
 

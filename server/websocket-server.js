@@ -21,6 +21,9 @@ class WebsocketServer {
     // Websocket server
     this.ws = new Websocket.Server({ server })
 
+    // Server rgb color code
+    this.serverCode = 'none'
+
     // Websocket connection
     this.wsconnection = null
     this.initialize()
@@ -30,11 +33,15 @@ class WebsocketServer {
    * Initialize listeners and corresponding actions for incoming client "message".
    */
   initialize () {
-    this.ws.on('connection', (wsconnection) => {
+    this.ws.on('connection', (wsconnection, req) => {
       this.wsconnection = wsconnection
 
       // Send a first-time welcome message
       this.sendMessage(ACTION_TYPES.CONNECTED, 'Welcome to the Chat room.')
+
+      // Assign a unique rgb color code to the newly-connected client
+      const userCodes = (Array.from(this.ws.clients).map(x => x.code)).filter(x => x !== undefined)
+      wsconnection.code = Utils.generateColorCode(userCodes)
 
       // Listen for incoming client message
       this.wsconnection.on('message', (data) => {
@@ -44,15 +51,18 @@ class WebsocketServer {
         switch (message[KEYS.ACTION]) {
         case ACTION_TYPES.REGISTER:
           // Acknowlege the username update
-          this.sendMessage(ACTION_TYPES.REGISTER, message[KEYS.USERID])
+          this.sendMessage(ACTION_TYPES.REGISTER, {
+            [KEYS.CODE]: wsconnection.code,
+            [KEYS.USERID]: message[KEYS.USERID]
+          })
 
           // Broadcast the new user ID to all connected clients
-          this.broadcastMessage(SERVER_ADMIN, `[${message[KEYS.USERID]}] has joined the chat.`)
+          this.broadcastMessage(SERVER_ADMIN, this.serverCode, `[${message[KEYS.USERID]}] has joined the chat.`)
           break
 
         case ACTION_TYPES.BROADCAST:
           // Broadcast a user's message to all other connected clients
-          this.broadcastMessage(message[KEYS.USERID], message[KEYS.MESSAGE])
+          this.broadcastMessage(message[KEYS.USERID], wsconnection.code, message[KEYS.MESSAGE])
           break
 
         default:
@@ -68,13 +78,15 @@ class WebsocketServer {
    * Broadcast a message to all connected clients
    * @param {String} userid Client userid where the message will originate from.
    * @param {String} message Message to broadcast to all connected clients.
+   * @param {String} code Random code (rgba) assigned to client.
    */
-  broadcastMessage (userid, message) {
+  broadcastMessage (userid, code, message) {
     this.ws.clients.forEach((client) => {
       if (client.readyState === Websocket.OPEN) {
         client.send(Utils.createResponse(
           ACTION_TYPES.BROADCAST,
           userid,
+          code,
           message))
       }
     })
@@ -89,6 +101,7 @@ class WebsocketServer {
     this.wsconnection.send(Utils.createResponse(
       actionType,
       SERVER_ADMIN,
+      this.serverCode,
       message
     ))
   }
