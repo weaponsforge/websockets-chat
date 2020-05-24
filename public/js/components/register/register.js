@@ -14,9 +14,16 @@ Vue.component('register', {
     }
   },
   template:
-    `<div class="registercontainer" id="register" >
+    `<div class="compnentcontainer registercontainer" id="register" >
+      <div class="leftpanel">
+        <h1>Websockets Chat</h1>
+      </div>
       <div>
-        <input id="username" v-model="username" />
+        <input
+          id="username"
+          v-model="username"
+          placeholder="Enter your username"
+          autocomplete="off" />
         <button @click="submit()">Submit</button>
       </div>
     </div>`

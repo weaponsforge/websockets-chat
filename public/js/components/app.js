@@ -9,6 +9,7 @@ const app = new Vue({
   el: '#app',
   data: {
     currentUser: null,
+    code: null,
     usermessage: 'usermessage',
     mymessage: 'mymessage',
     messages: []
@@ -20,8 +21,11 @@ const app = new Vue({
   methods: {
     fetchWebsocketData (data) {
       if (data[ACTION] === REGISTER) {
+        console.log('--app')
+        console.log(data)
         if (!this.currentUser) {
-          this.currentUser = data[MESSAGE]
+          this.currentUser = data[MESSAGE][USERID]
+          this.code = data[MESSAGE][CODE]
         }
       } else {
         this.messages.push(data)

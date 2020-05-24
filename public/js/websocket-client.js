@@ -24,7 +24,7 @@ class WebsocketClient {
       const data = this.parseResponse(event.data)
 
       if (data[ACTION] === REGISTER) {
-        this.user = data[MESSAGE]
+        this.user = data[MESSAGE][USERID]
       }
 
       callback(data)
