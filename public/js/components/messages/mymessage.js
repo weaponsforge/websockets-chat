@@ -2,7 +2,7 @@
 Vue.component('mymessage', {
   template:
   `<div class='usermessagecontainer messagealignright'>
-    <div class='usermessage'>{{ message }}</div>
+    <div class='usermessage' v-bind:style="{ background: bgcolor }">{{ message }}</div>
     <div class='username'>{{ userid }}</div> 
   </div>`,
   props: {
@@ -11,6 +11,10 @@ Vue.component('mymessage', {
       default: '001'
     },
     message: {
+      type: String,
+      default: ''
+    },
+    bgcolor: {
       type: String,
       default: ''
     }
