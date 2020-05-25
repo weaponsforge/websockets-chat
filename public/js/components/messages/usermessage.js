@@ -1,9 +1,9 @@
 // Component template for other User's Post
 Vue.component('usermessage', {
   template:
-  `<div class="usermessagecontainer">
+  `<div class="systemmessagecontainer">
     <div class="username">{{ userid }}</div>
-    <div class="usermessage">{{ message }}</div>
+    <div class="usermessage" v-bind:style="{ background: bgcolor }">{{ message }}</div>
   </div>`,
   props: {
     userid: {
@@ -11,6 +11,10 @@ Vue.component('usermessage', {
       default: '001'
     },
     message: {
+      type: String,
+      default: ''
+    },
+    bgcolor: {
       type: String,
       default: ''
     }

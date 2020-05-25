@@ -4,8 +4,10 @@
   "description": "Exploring websockets by building a basic chat application.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run generate-defines && node server/index",
+    "generate-defines": "node scripts/create-client-defines",
+    "lint-fix": "eslint --fix server scripts public/js",
+    "lint": "eslint server scripts public/js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +26,16 @@
   },
   "homepage": "https://github.com/weaponsforge/websockets-chat#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }

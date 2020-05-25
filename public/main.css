@@ -2,37 +2,73 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #F5F5F6;
 }
 
 .container {
   max-width: 960px;
   margin: auto;
-  border: 1px solid;
+  height: 500px;
+  padding-top: 40px;
+}
+
+.compnentcontainer {
+  border-radius: 10px;
+  box-shadow: 0 3px 20px rgba(89, 105, 129, .3), 0 1px 2px rgba(0, 0, 0, .05), 0 0 0 1px rgba(89, 105, 129, .1);
 }
 
 /* --------------- Messages --------------- */
-.messagescontainer {
-  border: 1px solid;
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
+
+.chat {
+  height: inherit;
 }
 
+.messagescontainer {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 3px solid #2286c3;
+  background-color: #ffffff;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.messagescontainer::-webkit-scrollbar { width: 0 !important }
+.messagescontainer { overflow: -moz-scrollbars-none; }
+.messagescontainer { -ms-overflow-style: none; }
 
 /* --------------- User Message --------------- */
 
+.systemmessagecontainer {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.systemmessagecontainer div {
+  padding: 8px;
+}
+
 .usermessagecontainer {
   display: flex;
+  justify-content: flex-end;
   width: 100%;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 
 .usermessagecontainer div {
-  border: 1px solid violet;
+  padding: 8px;
+  /* border: 1px solid violet; */
 }
 
 .usermessage {
-  width: 100%;
+  max-width: 60%;
+  padding: 8px;
+  color: #37474f;
+  font-weight: normal;
+}
+
+.username {
+  font-weight: bold;
 }
 
 .messagealignright {
@@ -43,17 +79,53 @@ body, html {
 /* --------------- User Login/Register --------------- */
 
 .registercontainer {
-  border: 1px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: inherit;
+  background-color: #9be7ff;
+  box-shadow: none;
 }
 
 .registercontainer div {
-  min-height: 100px;
-  width: 300px;
-  border: 1px solid burlywood;
+  width: 100%;
+  text-align: center;
+}
+
+.leftpanel {
+  width: 100%;
+  height: 100%;
+  background-color: #1985c1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-style: bold;
+}
+
+.registercontainer input, button {
+  height: 38px;
+  outline: none;
+  border: 2px solid #2286c3;
+  border-radius: 7px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 16px;
+  color: #37474f;
+}
+
+.registercontainer input {
+  width: 250px;
+}
+
+.registercontainer button {
+  width: initial;
+  height: 44px;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 
@@ -61,13 +133,21 @@ body, html {
 
 .controlpanel {
   display: flex;
-  width: 100%;
-  border: 1px solid orange;
+  height: 40px;
+  border-radius: 10px;
+  border: 3px solid #2286c3;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 3px solid #2286c3;
+  border-top: none;
+  background-color: #64b5f6;
 }
 
+/*
 .panelitem {
   border: 1px solid green;
 }
+*/
 
 .postcontainer {
   flex-grow: 10;
@@ -75,12 +155,37 @@ body, html {
 
 .postcontainer input {
   width: 100%;
+  height: 38px;
+  outline: none;
+  border: none;
+  border-bottom-left-radius: 7px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 16px;
+  color: #37474f;
 }
 
 .btnsubmitcontainer {
   flex-grow: 2;
+  border-bottom-right-radius: 10px;
 }
 
 .btnsubmitcontainer button {
   width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  border-bottom-right-radius: 10px;
+  outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  .registercontainer {
+    flex-direction: column;
+  }
+
+  .leftpanel {
+    height: 20%;
+    background-color: transparent;
+  }
 }
