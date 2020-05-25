@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - websockets-ping-pong
 
 jobs:
   deploy:
