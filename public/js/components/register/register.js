@@ -8,6 +8,14 @@ Vue.component('register', {
       messages: []
     }
   },
+  mounted () {
+    this.$refs.username.focus()
+    this.$refs.username.addEventListener('keyup', (event) => {
+      if (event.keyCode === 13) {
+        this.$refs.btnregister.click()
+      }
+    })
+  },
   methods: {
     submit () {
       ChatWS.register(this.username)
@@ -22,9 +30,12 @@ Vue.component('register', {
         <input
           id="username"
           v-model="username"
+          ref="username"
           placeholder="Enter your username"
           autocomplete="off" />
-        <button @click="submit()">Submit</button>
+        <button
+          ref="btnregister"
+          @click="submit()">Submit</button>
       </div>
     </div>`
 })

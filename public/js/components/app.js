@@ -27,7 +27,7 @@ const app = new Vue({
           this.currentUser = data[MESSAGE][USERID]
           this.code = data[MESSAGE][CODE]
         }
-      } else {
+      } else if (data[ACTION] !== PING) {
         this.messages.push(data)
       }
     }

@@ -7,6 +7,14 @@ Vue.component('controlpanel', {
       post: ''
     }
   },
+  mounted () {
+    this.$refs.post.focus()
+    this.$refs.post.addEventListener('keyup', (event) => {
+      if (event.keyCode === 13) {
+        this.$refs.btnsend.click()
+      }
+    })
+  },
   methods: {
     submit () {
       if (ChatWS.getUser()) {
@@ -14,18 +22,23 @@ Vue.component('controlpanel', {
       } else {
         ChatWS.register(this.post)
       }
+
+      this.post = ''
     }
   },
   template: `
     <div id="controlpanel" class="controlpanel">
       <!-- User Post -->
       <div class="panelitem postcontainer">
-        <input type="text" id="post" placeholder="Enter your message" v-model="post" />
+        <input type="text" id="post" placeholder="Enter your message"
+          v-model="post"
+          ref="post" />
       </div>
 
       <!-- Send Button -->
       <div class="panelitem btnsubmitcontainer">
         <button
+          ref="btnsend"
           @click="submit()">Send
         </button>
       </div>
