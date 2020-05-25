@@ -5,7 +5,8 @@ const ACTION_TYPES = {
   REGISTER: process.env.REGISTER,
   BROADCAST: process.env.BROADCAST,
   LOGOUT: process.env.LOGOUT,
-  ERROR: process.env.ERROR
+  ERROR: process.env.ERROR,
+  PING: process.env.PING
 }
 
 const MESSAGE_TYPE = {
@@ -25,10 +26,13 @@ const SERVER_ADMIN = process.env.SERVER_ADMIN
 
 const SERVER_PORT = process.env.PORT || process.env.SERVER_PORT
 
+const PING_TIMEOUT = process.env.PING_TIMEOUT
+
 module.exports = {
   ACTION_TYPES,
   MESSAGE_TYPE,
   KEYS,
   SERVER_PORT,
-  SERVER_ADMIN
+  SERVER_ADMIN,
+  PING_TIMEOUT
 }

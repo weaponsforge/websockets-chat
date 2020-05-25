@@ -1,31 +1,37 @@
 const Websocket = require('ws')
 const Utils = require('./utils')
+const WithPingPong = require('./with-pingpong')
 
 const {
   ACTION_TYPES,
   KEYS,
-  SERVER_ADMIN
-} = require('./defines')
+  SERVER_ADMIN,
+  PING_TIMEOUT
+} = require('../defines')
 
 /**
  * Class that creates a new Websocket server.
  * Listens for incoming client "message".
  * Broadcasts client "message" to all other connected clients.
+ * Monitors clients with "ping-pong" messages using WithPingPong.
  */
-class WebsocketServer {
+class WebsocketServer extends WithPingPong {
   /**
    * Initializes a Websocket server using a nodejs/express web server.
    * @param {Server} server http or https nodejs/express server.
+   * @param {Number} pingTimeout clients ping interval in milliseconds.
    */
-  constructor (server) {
+  constructor (server, pingTimeout = parseInt(PING_TIMEOUT)) {
+    super(pingTimeout)
+
     // Websocket server
     this.ws = new Websocket.Server({ server })
 
     // Server rgb color code
     this.serverCode = 'none'
 
-    // Websocket connection
-    this.wsconnection = null
+    // Current websocket client connection
+    this.wsConnection = null
     this.initialize()
   }
 
@@ -33,18 +39,22 @@ class WebsocketServer {
    * Initialize listeners and corresponding actions for incoming client "message".
    */
   initialize () {
-    this.ws.on('connection', (wsconnection, req) => {
-      this.wsconnection = wsconnection
+    this.ws.on('connection', (wsConnection, req) => {
+      this.wsConnection = wsConnection
+
+      // Add a method to respond to "ping". Reset the isAlive client status to true
+      wsConnection.isAlive = true
+      wsConnection.on('pong', this.heartbeat)
 
       // Send a first-time welcome message
       this.sendMessage(ACTION_TYPES.CONNECTED, 'Welcome to the Chat room.')
 
       // Assign a unique rgb color code to the newly-connected client
       const userCodes = (Array.from(this.ws.clients).map(x => x.code)).filter(x => x !== undefined)
-      wsconnection.code = Utils.generateColorCode(userCodes)
+      wsConnection.code = Utils.generateColorCode(userCodes)
 
       // Listen for incoming client message
-      this.wsconnection.on('message', (data) => {
+      this.wsConnection.on('message', (data) => {
         const message = Utils.parseRequest(data)
 
         // Confirm user's first-time username registration
@@ -52,7 +62,7 @@ class WebsocketServer {
         case ACTION_TYPES.REGISTER:
           // Acknowlege the username update
           this.sendMessage(ACTION_TYPES.REGISTER, {
-            [KEYS.CODE]: wsconnection.code,
+            [KEYS.CODE]: wsConnection.code,
             [KEYS.USERID]: message[KEYS.USERID]
           })
 
@@ -62,7 +72,11 @@ class WebsocketServer {
 
         case ACTION_TYPES.BROADCAST:
           // Broadcast a user's message to all other connected clients
-          this.broadcastMessage(message[KEYS.USERID], wsconnection.code, message[KEYS.MESSAGE])
+          this.broadcastMessage(message[KEYS.USERID], wsConnection.code, message[KEYS.MESSAGE])
+          break
+
+        case ACTION_TYPES.PING:
+          this.sendMessage(ACTION_TYPES.PING, true)
           break
 
         default:
@@ -71,6 +85,13 @@ class WebsocketServer {
           break
         }
       })
+    })
+
+    this.pingClients()
+
+    this.ws.on('close', function close () {
+      console.log('Client disconnected.')
+      this.stopPing()
     })
   }
 
@@ -98,7 +119,7 @@ class WebsocketServer {
    * @param {String} message A string message that will be broadcasted to all other connected clients.d
    */
   sendMessage (actionType, message) {
-    this.wsconnection.send(Utils.createResponse(
+    this.wsConnection.send(Utils.createResponse(
       actionType,
       SERVER_ADMIN,
       this.serverCode,

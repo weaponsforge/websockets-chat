@@ -1,4 +1,4 @@
-const { KEYS } = require('./defines')
+const { KEYS } = require('../defines')
 
 class Utils {
   /**
@@ -22,8 +22,6 @@ class Utils {
       const g = Math.floor(Math.random() * (max - min + 1) + min)
       const b = Math.floor(Math.random() * (max - min + 1) + min)
       rgb = `rgba(${r}, ${g}, ${b}, 0.1)`
-
-      console.log(rgb)
     } while (!rgb && userCodes.includes(rgb))
 
     return rgb

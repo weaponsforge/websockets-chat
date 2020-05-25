@@ -38,7 +38,11 @@ try {
       if (pair[0] === 'SERVER_PORT') {
         return `const ${pair[0]} = ${process.env.PORT || pair[1]}`
       } else {
-        return `const ${pair[0]} = '${pair[1]}'`
+        if (!isNaN(pair[1])) {
+          return `const ${pair[0]} = ${parseInt(pair[1])}`
+        } else {
+          return `const ${pair[0]} = '${pair[1]}'`
+        }
       }
     }).toString().replace(/,/g, '\n')
 
